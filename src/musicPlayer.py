@@ -1,3 +1,6 @@
+#coding:utf-8
+#coding=gbk
+
 import pygame
 import tkinter
 import os
@@ -7,28 +10,48 @@ player = tkinter.Tk()
 
 # specify window settings
 player.title("Music Player")
-player.geometry("235x530")
+player.geometry("900x500+300+300")
+player.resizable(0,0) #prohibit change form size
 
 # playlist
 # path to directory that contains music files
-os.chdir("C:/Users/Michael Yang/OneDrive/Desktop/Music Player/playlist")
+file_path = os.path.dirname(__file__)
+os.chdir(file_path + "\..\playlist")
 songlist = os.listdir()
 
 # create playlist
-playlist_label = tkinter.Label(player, text="Playlist", background="light grey")
-playlist = tkinter.Listbox(player, highlightcolor="blue", selectmode=tkinter.SINGLE)
-# one song for each row
-for item in songlist:
-    position = 0
-    playlist.insert(position, item)
-    position += 1
+playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
+playlist = tkinter.Listbox(player, highlightcolor="blue", width =50, height=15, selectbackgroun="light blue", selectmode=tkinter.SINGLE)
 
 # initialize pygame and mixer
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.set_volume(0.5) # set initial volume
 
+# one song for each row
+for item in songlist:
+    position = 0
+    playlist.insert(position, item)
+    position += 1
+    pygame.mixer.music.queue(item)
+
 # action events
+def back_music():
+    num=playlist.size()
+    i=0
+    while int(i)< num:
+        if playlist.selection_includes(i)==True:
+            if i==0:
+                music_name=playlist.index(i)
+            else:
+                music_name=playlist.index(i-1)
+            pygame.mixer.music.load(playlist.get(music_name))
+            var.set(playlist.get(tkinter.ACTIVE))
+            pygame.mixer.music.play()
+            break
+        else:
+            i=i+1
+
 def play_music():
     # unpause the song if paused before and it's the same song
     # otherwise play music
@@ -40,53 +63,83 @@ def play_music():
         var.set(playlist.get(tkinter.ACTIVE))
         pygame.mixer.music.play()
 
+def foward_music():
+    num=playlist.size()
+    i=0
+    while int(i)< num:
+        if playlist.selection_includes(i)==True:
+            if i==num-1:
+                music_name=playlist.index(i)
+            else:
+                music_name=playlist.index(i+1)
+            pygame.mixer.music.load(playlist.get(music_name))
+            var.set(playlist.get(tkinter.ACTIVE))
+            pygame.mixer.music.play()
+            break
+        else:
+            i=i+1
+
 def stop_music():
     pygame.mixer.music.stop()
 
-def pause():
+def pause_music():
     pygame.mixer.music.pause()
 
 def adjust_volume(value):
     pygame.mixer.music.set_volume(int(value) / 100)
 
-# main image
-main_image = tkinter.PhotoImage(file="C:/Users/Michael Yang/OneDrive/Desktop/Music Player/images/logo.png")
-logo = tkinter.Label(player, image = main_image)
+if __name__ == "__main__":
+    pos=0
+    position1=1
 
-# images for buttons
-# path to the images
-image1 = tkinter.PhotoImage(file="C:/Users/Michael Yang/OneDrive/Desktop/Music Player/images/playbutton.png")
-image2 = tkinter.PhotoImage(file="C:/Users/Michael Yang/OneDrive/Desktop/Music Player/images/pausebutton.png")
-image3 = tkinter.PhotoImage(file="C:/Users/Michael Yang/OneDrive/Desktop/Music Player/images/stopbutton.png")
-image4 = tkinter.PhotoImage(file="C:/Users/Michael Yang/OneDrive/Desktop/Music Player/images/volume.png")
+    # main image
+    main_image = tkinter.PhotoImage(file=file_path + "/../images/cp1.png")
+    logo = tkinter.Label(player, image = main_image)
 
-# buttons
-button1 = tkinter.Button(player, width=60, height=50, image=image1, command=play_music)
-button2 = tkinter.Button(player, width=60, height=50, image=image2, command=pause)
-button3 = tkinter.Button(player, width=60, height=50, image=image3, command=stop_music)
+    # images for buttons
+    image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton1.png")
+    image2 = tkinter.PhotoImage(file=file_path + "/../images/playbutton1.png")
+    image3 = tkinter.PhotoImage(file=file_path + "/../images/fowardbutton1.png")
+    image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton1.png")
+    image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton1.png")
+    image6 = tkinter.PhotoImage(file=file_path + "/../images/volume2.png")
 
-# scale bar for volume control
-volume_icon = tkinter.Label(player, image = image4)
-volume = tkinter.Scale(player, from_=0, to_=100, orient=tkinter.HORIZONTAL,
-                       resolution=1, command=adjust_volume)
+    # buttons
+    button1 = tkinter.Button(player, width=80, height=80, image=image1, command=back_music)
+    button2 = tkinter.Button(player, width=80, height=80, image=image2, command=play_music)
+    button3 = tkinter.Button(player, width=80, height=80, image=image3, command=foward_music)
+    button4 = tkinter.Button(player, width=80, height=80, image=image4, command=pause_music)
+    button5 = tkinter.Button(player, width=80, height=80, image=image5, command=stop_music)
 
-# label for song name
-var = tkinter.StringVar() # store the song name in var
-song_title = tkinter.Label(player, textvariable = var)
+    # scale bar for volume control
+    volume_icon = tkinter.Label(player, image = image6)
+    volume = tkinter.Scale(player, from_=0, to_=100, length=350, orient=tkinter.HORIZONTAL, resolution=1, command=adjust_volume)
 
-volume.set(50) # default value is 50 for scale bar
+    # label for song name
+    var = tkinter.StringVar() # store the song name in var
+    song_title = tkinter.Label(player, textvariable=var)
 
-# place widgets
-# grid
-song_title.grid(row=0, column=0, columnspan=30) # title is at the top
-logo.grid(row=1, column=0, padx=6, pady=3, columnspan=30)
-button3.grid(row=2, column=0, padx=9, columnspan=10)
-button1.grid(row=2, column=10, columnspan=10)
-button2.grid(row=2, column=20, padx=9, columnspan=10)
-volume_icon.grid(row=3, column=0, padx=6, pady=3)
-volume.grid(row=3, column=1, columnspan=29, sticky=tkinter.W+tkinter.E, padx=6, pady=3)
-playlist_label.grid(row=4, column=0, columnspan=30, sticky=tkinter.W+tkinter.E, padx=9)
-playlist.grid(row=5, column=0, columnspan=30, sticky=tkinter.W+tkinter.E, padx=9)
+    volume.set(50) # default value is 50 for scale bar
 
-# activate player
-player.mainloop()
+    # place widgets
+    # logo
+    logo.grid(row=0, column=0, padx=20, pady=3, columnspan=30)
+
+    # grid
+    song_title.grid(row=0, column=0, columnspan=30) # song title in the center of the image
+    playlist_label.grid(row=0, column=50, columnspan=100, sticky=tkinter.N+tkinter.W+tkinter.E, pady=30)
+    playlist.grid(row=0, column=50, columnspan=500, sticky=tkinter.W+tkinter.E, padx=0, pady=60)
+
+    # volume
+    volume_icon.grid(row=1, column=50, sticky=tkinter.W+tkinter.E, ipadx=10)
+    volume.grid(row=1, column=80, sticky=tkinter.N)
+
+    # button
+    button1.grid(row=1, column=10) #fastback_music
+    button2.grid(row=1, column=12) #play_music
+    button3.grid(row=1, column=14) #fastfoward_music
+    button4.grid(row=1, column=16) #pause_music
+    button5.grid(row=1, column=18) #stop_music
+
+    # activate player
+    player.mainloop()
