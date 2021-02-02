@@ -37,38 +37,46 @@ for item in songlist:
     position -= 1
     pygame.mixer.music.queue(item)
 
+
 # action events
 def back_music():
     num = playlist.size()
-    i = 0
-    while int(i) < num:
-        if playlist.selection_includes(i) == True:
-            if i == 0:
-                music_name=playlist.index(num - 1)
-            else:
-                music_name=playlist.index(i - 1)
-            pygame.mixer.music.load(playlist.get(music_name))
-            var.set(playlist.get(tkinter.ACTIVE))
-            pygame.mixer.music.play()
-            break
+
+    # if the there is song selected
+    if playlist.curselection():
+        i = playlist.curselection()[0] # get the index of the selected song
+
+        if i == 0:
+            music_name = playlist.index(num - 1)
         else:
-            i = i + 1
+            music_name = playlist.index(i - 1)
+
+        pygame.mixer.music.load(playlist.get(music_name))
+        var.set(playlist.get(tkinter.ACTIVE))
+        pygame.mixer.music.play()
+        playlist.selection_clear(0, num - 1) # clear selections
+        playlist.selection_set(music_name) # select the previous song
+        playlist.activate(music_name) # activate the selection
+
 
 def forward_music():
     num = playlist.size()
-    i = 0
-    while int(i) < num:
-        if playlist.selection_includes(i) == True:
-            if i == num - 1:
-                music_name=playlist.index(0)
-            else:
-                music_name=playlist.index(i + 1)
-            pygame.mixer.music.load(playlist.get(music_name))
-            var.set(playlist.get(tkinter.ACTIVE))
-            pygame.mixer.music.play()
-            break
+
+    if playlist.curselection():
+        i = playlist.curselection()[0] # get the index of the selected song
+
+        if i == num - 1:
+            music_name = playlist.index(0)
         else:
-            i = i + 1
+            music_name = playlist.index(i + 1)
+
+        pygame.mixer.music.load(playlist.get(music_name))
+        var.set(playlist.get(tkinter.ACTIVE))
+        pygame.mixer.music.play()
+        playlist.selection_clear(0, num - 1) # clear selections
+        playlist.selection_set(music_name) # select the next song
+        playlist.activate(music_name) # activate the selection
+
 
 def play_music():
     # unpause the song if paused before and it's the same song
@@ -77,15 +85,24 @@ def play_music():
         pygame.mixer.music.unpause()
     else:
         pygame.mixer.music.load(playlist.get(tkinter.ACTIVE)) # load the song
+        
         # set the song name based on selection
         var.set(playlist.get(tkinter.ACTIVE))
         pygame.mixer.music.play()
 
+        # select the 1st song if no song is selected
+        if len(playlist.curselection()) == 0:
+            playlist.selection_set(0)
+            playlist.activate(0)
+        
+
 def stop_music():
     pygame.mixer.music.stop()
 
+
 def pause_music():
     pygame.mixer.music.pause()
+
 
 def adjust_volume(value):
     pygame.mixer.music.set_volume(int(value) / 100)
