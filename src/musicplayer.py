@@ -11,7 +11,7 @@ player = tkinter.Tk()
 # specify window settings
 player.title("Music Player")
 player.geometry("900x500+300+300")
-player.resizable(0,0) #prohibit change form size
+player.resizable(0,0) # prohibit change form size
 
 # playlist
 # path to directory that contains music files
@@ -21,7 +21,7 @@ songlist = os.listdir()
 
 # create playlist
 playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
-playlist = tkinter.Listbox(player, highlightcolor="blue", width =50, height=15, selectbackgroun="light blue", selectmode=tkinter.SINGLE)
+playlist = tkinter.Listbox(player, highlightcolor="blue", width=50, height=15, selectbackground="light blue", selectmode=tkinter.SINGLE)
 
 # initialize pygame and mixer
 pygame.init()
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     button5 = tkinter.Button(player, width=80, height=80, image=image5, command=stop_music)
 
     # scale bar for volume control
-    volume_icon = tkinter.Label(player, image = image6)
+    volume_icon = tkinter.Label(player, image=image6)
     volume = tkinter.Scale(player, from_=0, to_=100, length=350, orient=tkinter.HORIZONTAL, resolution=1, command=adjust_volume)
 
     # label for song name
@@ -135,11 +135,11 @@ if __name__ == "__main__":
     volume.grid(row=1, column=80, sticky=tkinter.N)
 
     # button
-    button1.grid(row=1, column=10) #fastback_music
-    button2.grid(row=1, column=12) #play_music
-    button3.grid(row=1, column=14) #fastfoward_music
-    button4.grid(row=1, column=16) #pause_music
-    button5.grid(row=1, column=18) #stop_music
+    button1.grid(row=1, column=10) # fastback_music
+    button2.grid(row=1, column=12) # play_music
+    button3.grid(row=1, column=14) # fastfoward_music
+    button4.grid(row=1, column=16) # pause_music
+    button5.grid(row=1, column=18) # stop_music
 
     # activate player
     player.mainloop()
