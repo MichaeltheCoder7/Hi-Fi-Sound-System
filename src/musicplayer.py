@@ -37,20 +37,36 @@ for item in songlist:
 
 # action events
 def back_music():
-    num=playlist.size()
-    i=0
-    while int(i)< num:
-        if playlist.selection_includes(i)==True:
-            if i==0:
-                music_name=playlist.index(i)
+    num = playlist.size()
+    i = 0
+    while int(i) < num:
+        if playlist.selection_includes(i) == True:
+            if i == 0:
+                music_name=playlist.index(num - 1)
             else:
-                music_name=playlist.index(i-1)
+                music_name=playlist.index(i - 1)
             pygame.mixer.music.load(playlist.get(music_name))
             var.set(playlist.get(tkinter.ACTIVE))
             pygame.mixer.music.play()
             break
         else:
-            i=i+1
+            i = i + 1
+
+def forward_music():
+    num = playlist.size()
+    i = 0
+    while int(i) < num:
+        if playlist.selection_includes(i) == True:
+            if i == num - 1:
+                music_name=playlist.index(0)
+            else:
+                music_name=playlist.index(i + 1)
+            pygame.mixer.music.load(playlist.get(music_name))
+            var.set(playlist.get(tkinter.ACTIVE))
+            pygame.mixer.music.play()
+            break
+        else:
+            i = i + 1
 
 def play_music():
     # unpause the song if paused before and it's the same song
@@ -62,22 +78,6 @@ def play_music():
         # set the song name based on selection
         var.set(playlist.get(tkinter.ACTIVE))
         pygame.mixer.music.play()
-
-def foward_music():
-    num=playlist.size()
-    i=0
-    while int(i)< num:
-        if playlist.selection_includes(i)==True:
-            if i==num-1:
-                music_name=playlist.index(i)
-            else:
-                music_name=playlist.index(i+1)
-            pygame.mixer.music.load(playlist.get(music_name))
-            var.set(playlist.get(tkinter.ACTIVE))
-            pygame.mixer.music.play()
-            break
-        else:
-            i=i+1
 
 def stop_music():
     pygame.mixer.music.stop()
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # images for buttons
     image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton1.png")
     image2 = tkinter.PhotoImage(file=file_path + "/../images/playbutton1.png")
-    image3 = tkinter.PhotoImage(file=file_path + "/../images/fowardbutton1.png")
+    image3 = tkinter.PhotoImage(file=file_path + "/../images/forwardbutton1.png")
     image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton1.png")
     image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton1.png")
     image6 = tkinter.PhotoImage(file=file_path + "/../images/volume2.png")
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     # buttons
     button1 = tkinter.Button(player, width=80, height=80, image=image1, command=back_music)
     button2 = tkinter.Button(player, width=80, height=80, image=image2, command=play_music)
-    button3 = tkinter.Button(player, width=80, height=80, image=image3, command=foward_music)
+    button3 = tkinter.Button(player, width=80, height=80, image=image3, command=forward_music)
     button4 = tkinter.Button(player, width=80, height=80, image=image4, command=pause_music)
     button5 = tkinter.Button(player, width=80, height=80, image=image5, command=stop_music)
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     # button
     button1.grid(row=1, column=10) # fastback_music
     button2.grid(row=1, column=12) # play_music
-    button3.grid(row=1, column=14) # fastfoward_music
+    button3.grid(row=1, column=14) # fastforward_music
     button4.grid(row=1, column=16) # pause_music
     button5.grid(row=1, column=18) # stop_music
 
