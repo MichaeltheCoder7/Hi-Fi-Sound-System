@@ -30,9 +30,11 @@ pygame.mixer.music.set_volume(0.5) # set initial volume
 
 # one song for each row
 for item in songlist:
-    position = 0
+    # Insert songs in reverse order
+    # because insert is in that order
+    position = len(songlist) - 1
     playlist.insert(position, item)
-    position += 1
+    position -= 1
     pygame.mixer.music.queue(item)
 
 # action events
