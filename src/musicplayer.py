@@ -21,7 +21,7 @@ songlist = os.listdir()
 
 # create playlist
 playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
-playlist = tkinter.Listbox(player, highlightcolor="blue", width=50, height=15, selectbackground="light blue", selectmode=tkinter.SINGLE)
+playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="light blue", selectmode=tkinter.SINGLE)
 
 # initialize pygame and mixer
 pygame.init()
@@ -119,25 +119,25 @@ def exit_music():
 if __name__ == "__main__":
 
     # main image
-    main_image = tkinter.PhotoImage(file=file_path + "/../images/cp1.png")
+    main_image = tkinter.PhotoImage(file=file_path + "/../images/cp.png")
     logo = tkinter.Label(player, image = main_image)
 
     # images for buttons
-    image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton1.png")
-    image2 = tkinter.PhotoImage(file=file_path + "/../images/playbutton1.png")
-    image3 = tkinter.PhotoImage(file=file_path + "/../images/forwardbutton1.png")
-    image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton1.png")
-    image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton1.png")
-    image6 = tkinter.PhotoImage(file=file_path + "/../images/volume2.png")
-    image7 = tkinter.PhotoImage(file=file_path + "/../images/exitbutton2.png")
-    image8 = tkinter.PhotoImage(file=file_path + "/../images/repeat2.png")
+    image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton.png")
+    image2 = tkinter.PhotoImage(file=file_path + "/../images/playbutton.png")
+    image3 = tkinter.PhotoImage(file=file_path + "/../images/forwardbutton.png")
+    image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton.png")
+    image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton.png")
+    image6 = tkinter.PhotoImage(file=file_path + "/../images/volume.png")
+    image7 = tkinter.PhotoImage(file=file_path + "/../images/exitbutton.png")
+    image8 = tkinter.PhotoImage(file=file_path + "/../images/repeat.png")
 
     # buttons
-    button1 = tkinter.Button(player, width=80, height=80, image=image1, command=back_music)
-    button2 = tkinter.Button(player, width=80, height=80, image=image2, command=play_music)
-    button3 = tkinter.Button(player, width=80, height=80, image=image3, command=forward_music)
-    button4 = tkinter.Button(player, width=80, height=80, image=image4, command=pause_music)
-    button5 = tkinter.Button(player, width=80, height=80, image=image5, command=stop_music)
+    button1 = tkinter.Button(player, width=55, height=55, image=image1, command=back_music)
+    button2 = tkinter.Button(player, width=55, height=55, image=image2, command=play_music)
+    button3 = tkinter.Button(player, width=55, height=55, image=image3, command=forward_music)
+    button4 = tkinter.Button(player, width=55, height=55, image=image4, command=pause_music)
+    button5 = tkinter.Button(player, width=55, height=55, image=image5, command=stop_music)
     button6 = tkinter.Button(player, width=35, height=35, image=image7, activebackground="light blue", command=exit_music)
     button7 = tkinter.Button(player, width=35, height=35, image=image8, command=repeat_music)
 
@@ -157,12 +157,12 @@ if __name__ == "__main__":
 
     # grid
     song_title.grid(row=0, column=0, columnspan=30) # song title in the center of the image
-    playlist_label.grid(row=0, column=50, columnspan=100, sticky=tkinter.N+tkinter.W+tkinter.E, pady=30)
+    playlist_label.grid(row=0, column=50, columnspan=150, sticky=tkinter.N+tkinter.W+tkinter.E, pady=30)
     playlist.grid(row=0, column=50, columnspan=500, sticky=tkinter.W+tkinter.E, padx=0, pady=60)
 
     # volume
     volume_icon.grid(row=1, column=50, sticky=tkinter.W+tkinter.E, ipadx=10)
-    volume.grid(row=1, column=80, sticky=tkinter.N)
+    volume.grid(row=1, column=60, sticky=tkinter.N)
 
     # button
     button1.grid(row=1, column=10) # fastback_music
