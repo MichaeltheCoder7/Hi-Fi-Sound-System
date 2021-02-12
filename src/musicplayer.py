@@ -10,7 +10,7 @@ player = tkinter.Tk()
 
 # specify window settings
 player.title("Music Player")
-player.geometry("900x500+300+300")
+player.geometry("850x490+300+300")
 player.resizable(0,0) # prohibit change form size
 
 # playlist
@@ -56,7 +56,7 @@ def back_music():
 
         pygame.mixer.music.load(playlist.get(music_name))
         var.set(playlist.get(tkinter.ACTIVE))
-        #pygame.mixer.music.play()
+        pygame.mixer.music.play()
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the previous song
         playlist.activate(music_name) # activate the selection
@@ -170,8 +170,8 @@ if __name__ == "__main__":
     button3.grid(row=1, column=14) # fastforward_music
     button4.grid(row=1, column=16) # pause_music
     button5.grid(row=1, column=18) # stop_music
-    button6.grid(row=2, column=150, sticky=tkinter.W+tkinter.E)   # exit_music
-    button7.grid(row=1, column=150, sticky=tkinter.W+tkinter.E)   # repeat_music
+    button6.grid(row=2, column=150, sticky=tkinter.W+tkinter.E) # exit_music
+    button7.grid(row=1, column=150, sticky=tkinter.W+tkinter.E) # repeat_music
 
     # activate player
     player.mainloop()
