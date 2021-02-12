@@ -33,9 +33,12 @@ for item in songlist:
     # Insert songs in reverse order
     # because insert is in that order
     position = len(songlist) - 1
-    playlist.insert(position, item)
+
+    # Filtering files *.mp3
+    if item.find(".mp3") !=-1:
+        playlist.insert(position, item)
+        pygame.mixer.music.queue(item)
     position -= 1
-    pygame.mixer.music.queue(item)
 
 
 # action events
@@ -53,7 +56,7 @@ def back_music():
 
         pygame.mixer.music.load(playlist.get(music_name))
         var.set(playlist.get(tkinter.ACTIVE))
-        pygame.mixer.music.play()
+        #pygame.mixer.music.play()
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the previous song
         playlist.activate(music_name) # activate the selection
@@ -107,9 +110,13 @@ def pause_music():
 def adjust_volume(value):
     pygame.mixer.music.set_volume(int(value) / 100)
 
+def repeat_music():
+    pygame.mixer.music.play(-1)
+   
+def exit_music():
+    os._exit(0)
+
 if __name__ == "__main__":
-    pos=0
-    position1=1
 
     # main image
     main_image = tkinter.PhotoImage(file=file_path + "/../images/cp1.png")
@@ -122,6 +129,8 @@ if __name__ == "__main__":
     image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton1.png")
     image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton1.png")
     image6 = tkinter.PhotoImage(file=file_path + "/../images/volume2.png")
+    image7 = tkinter.PhotoImage(file=file_path + "/../images/exitbutton2.png")
+    image8 = tkinter.PhotoImage(file=file_path + "/../images/repeat2.png")
 
     # buttons
     button1 = tkinter.Button(player, width=80, height=80, image=image1, command=back_music)
@@ -129,6 +138,8 @@ if __name__ == "__main__":
     button3 = tkinter.Button(player, width=80, height=80, image=image3, command=forward_music)
     button4 = tkinter.Button(player, width=80, height=80, image=image4, command=pause_music)
     button5 = tkinter.Button(player, width=80, height=80, image=image5, command=stop_music)
+    button6 = tkinter.Button(player, width=35, height=35, image=image7, activebackground="light blue", command=exit_music)
+    button7 = tkinter.Button(player, width=35, height=35, image=image8, command=repeat_music)
 
     # scale bar for volume control
     volume_icon = tkinter.Label(player, image=image6)
@@ -159,6 +170,8 @@ if __name__ == "__main__":
     button3.grid(row=1, column=14) # fastforward_music
     button4.grid(row=1, column=16) # pause_music
     button5.grid(row=1, column=18) # stop_music
+    button6.grid(row=2, column=150, sticky=tkinter.W+tkinter.E)   # exit_music
+    button7.grid(row=1, column=150, sticky=tkinter.W+tkinter.E)   # repeat_music
 
     # activate player
     player.mainloop()
