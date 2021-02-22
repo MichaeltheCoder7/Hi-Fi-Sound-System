@@ -40,6 +40,8 @@ for item in songlist:
         pygame.mixer.music.queue(item)
     position -= 1
 
+# global variable to check if a sound is paused
+is_paused = False
 
 # action events
 def back_music():
@@ -54,9 +56,13 @@ def back_music():
         else:
             music_name = playlist.index(i - 1)
 
+        busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
         pygame.mixer.music.load(playlist.get(music_name))
         var.set(playlist.get(tkinter.ACTIVE))
-        pygame.mixer.music.play()
+
+        if busy and is_paused == False:
+            pygame.mixer.music.play() # play if it was already playing and not paused
+
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the previous song
         playlist.activate(music_name) # activate the selection
@@ -73,15 +79,22 @@ def forward_music():
         else:
             music_name = playlist.index(i + 1)
 
+        busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
         pygame.mixer.music.load(playlist.get(music_name))
         var.set(playlist.get(tkinter.ACTIVE))
-        pygame.mixer.music.play()
+
+        if busy and is_paused == False:
+            pygame.mixer.music.play() # play if it was already playing and not paused
+            
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the next song
         playlist.activate(music_name) # activate the selection
 
 
 def play_music():
+    global is_paused
+    pause = False # set pause to false
+
     # unpause the song if paused before and it's the same song
     # otherwise play music
     if pygame.mixer.music.get_busy() and playlist.get(tkinter.ACTIVE) == var.get():
@@ -100,21 +113,30 @@ def play_music():
         
 
 def stop_music():
+    global is_paused
+
     pygame.mixer.music.stop()
+    is_paused = False
 
 
 def pause_music():
+    global is_paused
+
     pygame.mixer.music.pause()
+    is_paused = True
 
 
 def adjust_volume(value):
     pygame.mixer.music.set_volume(int(value) / 100)
 
+
 def repeat_music():
     pygame.mixer.music.play(-1)
    
+
 def exit_music():
     os._exit(0)
+
 
 if __name__ == "__main__":
 
