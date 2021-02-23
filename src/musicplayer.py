@@ -40,8 +40,10 @@ for item in songlist:
         pygame.mixer.music.queue(item)
     position -= 1
 
-# global variable to check if a sound is paused
-is_paused = False
+# global variable
+is_paused = False # check if a sound is paused
+is_on = False
+is_repeat = 0
 
 # action events
 def back_music():
@@ -61,7 +63,7 @@ def back_music():
         var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
-            pygame.mixer.music.play() # play if it was already playing and not paused
+            pygame.mixer.music.play(loops=is_repeat) # play if it was already playing and not paused
 
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the previous song
@@ -84,7 +86,7 @@ def forward_music():
         var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
-            pygame.mixer.music.play() # play if it was already playing and not paused
+            pygame.mixer.music.play(loops=is_repeat) # play if it was already playing and not paused
             
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_name) # select the next song
@@ -104,7 +106,7 @@ def play_music():
         
         # set the song name based on selection
         var.set(playlist.get(tkinter.ACTIVE))
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(loops=is_repeat)
 
         # select the 1st song if no song is selected
         if len(playlist.curselection()) == 0:
@@ -130,8 +132,21 @@ def adjust_volume(value):
     pygame.mixer.music.set_volume(int(value) / 100)
 
 
-def repeat_music():
-    pygame.mixer.music.play(-1)
+# switch for repeat button
+def switch():
+    global is_on
+    global is_repeat
+
+    # only allow toggle when there is no song playing or paused
+    if not pygame.mixer.music.get_busy():
+        if is_on:
+            button7.config(background="gray92")
+            is_on = False
+            is_repeat = 0
+        else:
+            button7.config(background="dark gray")
+            is_on = True
+            is_repeat = -1
    
 
 def exit_music():
@@ -161,7 +176,7 @@ if __name__ == "__main__":
     button4 = tkinter.Button(player, width=55, height=55, image=image4, command=pause_music)
     button5 = tkinter.Button(player, width=55, height=55, image=image5, command=stop_music)
     button6 = tkinter.Button(player, width=35, height=35, image=image7, activebackground="light blue", command=exit_music)
-    button7 = tkinter.Button(player, width=35, height=35, image=image8, command=repeat_music)
+    button7 = tkinter.Button(player, width=35, height=35, image=image8, command=switch)
 
     # scale bar for volume control
     volume_icon = tkinter.Label(player, image=image6)
