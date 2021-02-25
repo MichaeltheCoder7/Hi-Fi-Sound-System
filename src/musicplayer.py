@@ -95,7 +95,7 @@ def forward_music():
 
 def play_music():
     global is_paused
-    is_paused = False # set pause to false
+    pause = False # set pause to false
 
     # unpause the song if paused before and it's the same song
     # otherwise play music
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     # main image
     main_image = tkinter.PhotoImage(file=file_path + "/../images/cp.png")
-    logo = tkinter.Label(player, image = main_image)
+    logo = tkinter.Label(player, image=main_image)
 
     # images for buttons
     image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton.png")
