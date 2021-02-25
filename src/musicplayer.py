@@ -11,7 +11,7 @@ player = tkinter.Tk()
 # specify window settings
 player.title("Music Player")
 player.geometry("850x490+300+300")
-player.resizable(0, 0) # prohibit change form size
+player.resizable(0, 0) # prohibit changing size
 
 # playlist
 # path to directory that contains music files
@@ -40,8 +40,8 @@ for item in songlist:
         pygame.mixer.music.queue(item)
     position -= 1
 
-# global variable
-is_paused = False # check if a sound is paused
+# global variables
+is_paused = False # check if a song is paused
 is_on = False
 is_repeat = 0
 
@@ -49,7 +49,7 @@ is_repeat = 0
 def back_music():
     num = playlist.size()
 
-    # if the there is song selected
+    # if the there is a song selected
     if playlist.curselection():
         i = playlist.curselection()[0] # get the index of the selected song
 
@@ -212,3 +212,4 @@ if __name__ == "__main__":
 
     # activate player
     player.mainloop()
+    
