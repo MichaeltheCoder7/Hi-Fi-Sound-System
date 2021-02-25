@@ -11,7 +11,7 @@ player = tkinter.Tk()
 # specify window settings
 player.title("Music Player")
 player.geometry("850x490+300+300")
-player.resizable(0,0) # prohibit change form size
+player.resizable(0, 0) # prohibit change form size
 
 # playlist
 # path to directory that contains music files
@@ -95,7 +95,7 @@ def forward_music():
 
 def play_music():
     global is_paused
-    pause = False # set pause to false
+    is_paused = False # set pause to false
 
     # unpause the song if paused before and it's the same song
     # otherwise play music
