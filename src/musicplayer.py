@@ -10,7 +10,7 @@ player = tkinter.Tk()
 
 # specify window settings
 player.title("Music Player")
-player.geometry("850x490+300+300")
+player.geometry("860x490+300+300")
 player.resizable(0, 0) # prohibit changing size
 
 # playlist
@@ -239,8 +239,8 @@ if __name__ == "__main__":
     button3 = tkinter.Button(player, width=55, height=55, image=image3, command=forward_music)
     button4 = tkinter.Button(player, width=55, height=55, image=image4, command=pause_music)
     button5 = tkinter.Button(player, width=55, height=55, image=image5, command=stop_music)
-    button6 = tkinter.Button(player, width=35, height=35, image=image7, command=switch_loop)
-    button7 = tkinter.Button(player, width=35, height=35, image=image8, command=switch_repeat)
+    button6 = tkinter.Button(player, width=30, height=30, image=image7, command=switch_loop)
+    button7 = tkinter.Button(player, width=30, height=30, image=image8, command=switch_repeat)
 
     # scale bar for volume control
     volume_icon = tkinter.Label(player, image=image6)
@@ -271,8 +271,8 @@ if __name__ == "__main__":
     button3.grid(row=1, column=14) # fastforward_music
     button4.grid(row=1, column=16) # pause_music
     button5.grid(row=1, column=18) # stop_music
-    button6.grid(row=2, column=150, sticky=tkinter.W+tkinter.E) # loop_music
-    button7.grid(row=1, column=150, sticky=tkinter.W+tkinter.E) # repeat_music
+    button6.grid(row=2, column=150, padx=10) # loop_music
+    button7.grid(row=1, column=150, padx=10) # repeat_music
 
     # set up the endevent for loop_songs
     pygame.mixer.music.set_endevent(SONG_END)
