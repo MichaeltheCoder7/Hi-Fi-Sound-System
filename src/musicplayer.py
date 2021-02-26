@@ -86,9 +86,27 @@ def play_music():
 
 def stop_music():
     global is_paused
+    global is_loop
+    global is_repeat
+    global is_random
 
     pygame.mixer.music.stop()
     is_paused = False
+
+    # turn off repeat if on
+    if is_repeat:
+        button7.config(background="gray92")
+        is_repeat = False
+
+    # turn off loop if on
+    if is_loop:
+        button6.config(background="gray92")
+        is_loop = False
+    
+    # turn off random if on
+    if is_random:
+        button8.config(background="gray92")
+        is_random = False
 
 
 def pause_music():
