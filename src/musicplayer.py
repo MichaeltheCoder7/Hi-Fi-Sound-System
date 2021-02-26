@@ -43,11 +43,8 @@ for item in songlist:
 
 # global variables
 is_paused = False # check if a song is paused
-is_on_repeat = False
 is_repeat = False
-is_on_loop = False
 is_loop = False
-is_on_random = False
 is_random = False
 
 # event when a song finished
@@ -142,100 +139,79 @@ def adjust_volume(value):
 
 # switch for repeat button
 def switch_repeat():
-    global is_on_loop
     global is_loop
-    global is_on_repeat
     global is_repeat
-    global is_on_random
     global is_random
 
-    if is_on_repeat:
+    if is_repeat:
         # turn off repeat
         button7.config(background="gray92")
-        is_on_repeat = False
         is_repeat = False
     else:
         # turn on repeat
         button7.config(background="dark gray")
-        is_on_repeat = True
         is_repeat = True
 
         # turn off loop if on
-        if is_on_loop:
+        if is_loop:
             button6.config(background="gray92")
-            is_on_loop = False
             is_loop = False
         
         # turn off random if on
-        if is_on_random:
+        if is_random:
             button8.config(background="gray92")
-            is_on_random = False
             is_random = False
 
 
 # switch for loop button
 def switch_loop():
-    global is_on_loop
     global is_loop
-    global is_on_repeat
     global is_repeat
-    global is_on_random
     global is_random
 
-    if is_on_loop:
+    if is_loop:
         # turn off loop
         button6.config(background="gray92")
-        is_on_loop = False
         is_loop = False
     else:
         # turn on loop
         button6.config(background="dark gray")
-        is_on_loop = True
         is_loop = True
 
         # turn off repeat if on
-        if is_on_repeat:
+        if is_repeat:
             button7.config(background="gray92")
-            is_on_repeat = False
             is_repeat = False
 
         # turn off random if on
-        if is_on_random:
+        if is_random:
             button8.config(background="gray92")
-            is_on_random = False
             is_random = False
 
 
 # switch for random button
 def switch_random():
-    global is_on_loop
     global is_loop
-    global is_on_repeat
     global is_repeat
-    global is_on_random
     global is_random
 
-    if is_on_random:
+    if is_random:
         # turn off random
         button8.config(background="gray92")
-        is_on_random = False
         is_random = False
     else:
         # turn on random
         button8.config(background="dark gray")
-        is_on_random = True
         is_random = True
 
         # turn off repeat if on
-        if is_on_repeat:
+        if is_repeat:
             button7.config(background="gray92")
-            is_on_repeat = False
             is_repeat = False
 
         # turn off loop if on
-        if is_on_loop:
+        if is_loop:
             button6.config(background="gray92")
-            is_on_loop = False
             is_loop = False
 
 
