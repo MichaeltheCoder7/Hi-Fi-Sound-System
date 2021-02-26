@@ -6,41 +6,6 @@ import tkinter
 import os
 import random
 
-# create main window
-player = tkinter.Tk()
-
-# specify window settings
-player.title("Music Player")
-player.geometry("860x500+300+300")
-player.resizable(0, 0) # prohibit changing size
-
-# playlist
-# path to directory that contains music files
-file_path = os.path.dirname(__file__)
-os.chdir(file_path + "\..\playlist")
-songlist = os.listdir()
-
-# create playlist
-playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
-playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="blue", selectmode=tkinter.SINGLE)
-
-# initialize pygame and mixer
-pygame.init()
-pygame.mixer.init()
-pygame.mixer.music.set_volume(0.5) # set initial volume
-
-# one song for each row
-for item in songlist:
-    # Insert songs in reverse order
-    # because insert is in that order
-    position = len(songlist) - 1
-
-    # Filtering files *.mp3
-    if item.find(".mp3") !=-1:
-        playlist.insert(position, item)
-        pygame.mixer.music.queue(item)
-    position -= 1
-
 # global variables
 is_paused = False # check if a song is paused
 is_repeat = False
@@ -252,6 +217,45 @@ def check_is_song_finished():
 
 if __name__ == "__main__":
 
+    # create main window
+    player = tkinter.Tk()
+
+    # specify window settings
+    player.title("Music Player")
+    player.geometry("860x500+300+300")
+    player.resizable(0, 0) # prohibit changing size
+
+    # playlist
+    # path to directory that contains music files
+    file_path = os.path.dirname(__file__)
+    os.chdir(file_path + "\..\playlist")
+    songlist = os.listdir()
+
+    # make sure there is at least 1 song in song list
+    if len(songlist) == 0:
+        raise Exception("No music files found!")
+
+    # create playlist
+    playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
+    playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="blue", selectmode=tkinter.SINGLE)
+
+    # initialize pygame and mixer
+    pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.set_volume(0.5) # set initial volume
+
+    # one song for each row
+    for item in songlist:
+        # Insert songs in reverse order
+        # because insert is in that order
+        position = len(songlist) - 1
+
+        # Filtering files *.mp3
+        if item.find(".mp3") != -1:
+            playlist.insert(position, item)
+            pygame.mixer.music.queue(item)
+        position -= 1
+        
     # main image
     main_image = tkinter.PhotoImage(file=file_path + "/../images/cp.png")
     logo = tkinter.Label(player, image=main_image)
