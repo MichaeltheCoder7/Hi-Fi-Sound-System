@@ -30,7 +30,6 @@ def back_music():
 
         busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
         pygame.mixer.music.load(playlist.get(music_index))
-        var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
             pygame.mixer.music.play() # play if it was already playing and not paused
@@ -38,6 +37,7 @@ def back_music():
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_index) # select the previous song
         playlist.activate(music_index) # activate the selection
+        var.set(playlist.get(tkinter.ACTIVE)) # show the song name in the image
 
 
 def forward_music():
@@ -53,7 +53,6 @@ def forward_music():
 
         busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
         pygame.mixer.music.load(playlist.get(music_index))
-        var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
             pygame.mixer.music.play() # play if it was already playing and not paused
@@ -61,6 +60,7 @@ def forward_music():
         playlist.selection_clear(0, num - 1) # clear selections
         playlist.selection_set(music_index) # select the next song
         playlist.activate(music_index) # activate the selection
+        var.set(playlist.get(tkinter.ACTIVE)) # show the song name in the image
 
 
 def play_music():
@@ -73,15 +73,15 @@ def play_music():
         pygame.mixer.music.unpause()
     else:
         pygame.mixer.music.load(playlist.get(tkinter.ACTIVE)) # load the song
-        
-        # set the song name based on selection
-        var.set(playlist.get(tkinter.ACTIVE))
         pygame.mixer.music.play()
 
         # select the 1st song if no song is selected
         if len(playlist.curselection()) == 0:
             playlist.selection_set(0)
             playlist.activate(0)
+        
+        # set the song name based on selection
+        var.set(playlist.get(tkinter.ACTIVE))
         
 
 def stop_music():
@@ -203,7 +203,6 @@ def check_is_song_finished():
                     music_index = random.randint(0, num - 1) # get a random new song
 
                 pygame.mixer.music.load(playlist.get(music_index))
-                var.set(playlist.get(tkinter.ACTIVE))
 
                 pygame.mixer.music.play() # play the song
                 is_paused = False # set pause to false
@@ -211,6 +210,7 @@ def check_is_song_finished():
                 playlist.selection_clear(0, num - 1) # clear selections
                 playlist.selection_set(music_index) # select the next song
                 playlist.activate(music_index) # activate the selection
+                var.set(playlist.get(tkinter.ACTIVE)) # show the song name in the image
 
     player.after(100, check_is_song_finished) # run this function in background after GUI was activated
 
