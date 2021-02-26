@@ -4,13 +4,14 @@
 import pygame
 import tkinter
 import os
+import random
 
 # create main window
 player = tkinter.Tk()
 
 # specify window settings
 player.title("Music Player")
-player.geometry("860x490+300+300")
+player.geometry("860x500+300+300")
 player.resizable(0, 0) # prohibit changing size
 
 # playlist
@@ -46,6 +47,8 @@ is_on_repeat = False
 is_repeat = False
 is_on_loop = False
 is_loop = False
+is_on_random = False
+is_random = False
 
 # event when a song finished
 SONG_END = pygame.USEREVENT + 1
@@ -59,20 +62,20 @@ def back_music():
         i = playlist.curselection()[0] # get the index of the selected song
 
         if i == 0:
-            music_name = playlist.index(num - 1)
+            music_index = playlist.index(num - 1)
         else:
-            music_name = playlist.index(i - 1)
+            music_index = playlist.index(i - 1)
 
         busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
-        pygame.mixer.music.load(playlist.get(music_name))
+        pygame.mixer.music.load(playlist.get(music_index))
         var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
             pygame.mixer.music.play() # play if it was already playing and not paused
 
         playlist.selection_clear(0, num - 1) # clear selections
-        playlist.selection_set(music_name) # select the previous song
-        playlist.activate(music_name) # activate the selection
+        playlist.selection_set(music_index) # select the previous song
+        playlist.activate(music_index) # activate the selection
 
 
 def forward_music():
@@ -82,20 +85,20 @@ def forward_music():
         i = playlist.curselection()[0] # get the index of the selected song
 
         if i == num - 1:
-            music_name = playlist.index(0)
+            music_index = playlist.index(0)
         else:
-            music_name = playlist.index(i + 1)
+            music_index = playlist.index(i + 1)
 
         busy = pygame.mixer.music.get_busy() # determine whether there is a song playing before pressing this button
-        pygame.mixer.music.load(playlist.get(music_name))
+        pygame.mixer.music.load(playlist.get(music_index))
         var.set(playlist.get(tkinter.ACTIVE))
 
         if busy and is_paused == False:
             pygame.mixer.music.play() # play if it was already playing and not paused
             
         playlist.selection_clear(0, num - 1) # clear selections
-        playlist.selection_set(music_name) # select the next song
-        playlist.activate(music_name) # activate the selection
+        playlist.selection_set(music_index) # select the next song
+        playlist.activate(music_index) # activate the selection
 
 
 def play_music():
@@ -143,6 +146,8 @@ def switch_repeat():
     global is_loop
     global is_on_repeat
     global is_repeat
+    global is_on_random
+    global is_random
 
     if is_on_repeat:
         # turn off repeat
@@ -160,6 +165,12 @@ def switch_repeat():
             button6.config(background="gray92")
             is_on_loop = False
             is_loop = False
+        
+        # turn off random if on
+        if is_on_random:
+            button8.config(background="gray92")
+            is_on_random = False
+            is_random = False
 
 
 # switch for loop button
@@ -168,6 +179,8 @@ def switch_loop():
     global is_loop
     global is_on_repeat
     global is_repeat
+    global is_on_random
+    global is_random
 
     if is_on_loop:
         # turn off loop
@@ -186,6 +199,45 @@ def switch_loop():
             is_on_repeat = False
             is_repeat = False
 
+        # turn off random if on
+        if is_on_random:
+            button8.config(background="gray92")
+            is_on_random = False
+            is_random = False
+
+
+# switch for random button
+def switch_random():
+    global is_on_loop
+    global is_loop
+    global is_on_repeat
+    global is_repeat
+    global is_on_random
+    global is_random
+
+    if is_on_random:
+        # turn off random
+        button8.config(background="gray92")
+        is_on_random = False
+        is_random = False
+    else:
+        # turn on random
+        button8.config(background="dark gray")
+        is_on_random = True
+        is_random = True
+
+        # turn off repeat if on
+        if is_on_repeat:
+            button7.config(background="gray92")
+            is_on_repeat = False
+            is_repeat = False
+
+        # turn off loop if on
+        if is_on_loop:
+            button6.config(background="gray92")
+            is_on_loop = False
+            is_loop = False
+
 
 def check_is_song_finished():
     num = playlist.size()
@@ -195,24 +247,26 @@ def check_is_song_finished():
         if event.type == SONG_END:
             i = playlist.curselection()[0] # get the index of the selected song
 
-            if is_loop or is_repeat:
+            if is_loop or is_repeat or is_random:
                 if is_loop:
                     # get the next song and loop
                     if i == num - 1:
-                        music_name = playlist.index(0)
+                        music_index = playlist.index(0)
                     else:
-                        music_name = playlist.index(i + 1)
+                        music_index = playlist.index(i + 1)
                 elif is_repeat:
-                    music_name = playlist.index(i) # get the same song and repeat
+                    music_index = playlist.index(i) # get the same song and repeat
+                elif is_random:
+                    music_index = random.randint(0, num - 1) # get a random new song
 
-                pygame.mixer.music.load(playlist.get(music_name))
+                pygame.mixer.music.load(playlist.get(music_index))
                 var.set(playlist.get(tkinter.ACTIVE))
 
                 pygame.mixer.music.play() # play the song
                 
                 playlist.selection_clear(0, num - 1) # clear selections
-                playlist.selection_set(music_name) # select the next song
-                playlist.activate(music_name) # activate the selection
+                playlist.selection_set(music_index) # select the next song
+                playlist.activate(music_index) # activate the selection
 
     player.after(100, check_is_song_finished) # run this function in background after GUI was activated
 
@@ -232,6 +286,7 @@ if __name__ == "__main__":
     image6 = tkinter.PhotoImage(file=file_path + "/../images/volume.png")
     image7 = tkinter.PhotoImage(file=file_path + "/../images/loop.png")
     image8 = tkinter.PhotoImage(file=file_path + "/../images/repeat.png")
+    image9 = tkinter.PhotoImage(file=file_path + "/../images/random.png")
 
     # buttons
     button1 = tkinter.Button(player, width=55, height=55, image=image1, command=back_music)
@@ -239,8 +294,9 @@ if __name__ == "__main__":
     button3 = tkinter.Button(player, width=55, height=55, image=image3, command=forward_music)
     button4 = tkinter.Button(player, width=55, height=55, image=image4, command=pause_music)
     button5 = tkinter.Button(player, width=55, height=55, image=image5, command=stop_music)
-    button6 = tkinter.Button(player, width=30, height=30, image=image7, command=switch_loop)
-    button7 = tkinter.Button(player, width=30, height=30, image=image8, command=switch_repeat)
+    button6 = tkinter.Button(player, width=27, height=27, image=image7, command=switch_loop)
+    button7 = tkinter.Button(player, width=27, height=27, image=image8, command=switch_repeat)
+    button8 = tkinter.Button(player, width=27, height=27, image=image9, command=switch_random)
 
     # scale bar for volume control
     volume_icon = tkinter.Label(player, image=image6)
@@ -259,25 +315,26 @@ if __name__ == "__main__":
     # grid
     song_title.grid(row=0, column=0, columnspan=30) # song title in the center of the image
     playlist_label.grid(row=0, column=50, columnspan=150, sticky=tkinter.N+tkinter.W+tkinter.E, pady=30)
-    playlist.grid(row=0, column=50, columnspan=500, sticky=tkinter.W+tkinter.E, padx=0, pady=60)
+    playlist.grid(row=0, column=50, columnspan=500, sticky=tkinter.W+tkinter.E, padx=0, pady=50)
 
     # volume
-    volume_icon.grid(row=1, column=50, sticky=tkinter.W+tkinter.E, ipadx=10)
-    volume.grid(row=1, column=60, sticky=tkinter.N)
+    volume_icon.grid(row=2, column=50, sticky=tkinter.W+tkinter.E, ipadx=10)
+    volume.grid(row=2, column=60, sticky=tkinter.N)
 
     # button
-    button1.grid(row=1, column=10) # fastback_music
-    button2.grid(row=1, column=12) # play_music
-    button3.grid(row=1, column=14) # fastforward_music
-    button4.grid(row=1, column=16) # pause_music
-    button5.grid(row=1, column=18) # stop_music
-    button6.grid(row=2, column=150, padx=10) # loop_music
-    button7.grid(row=1, column=150, padx=10) # repeat_music
+    button1.grid(row=2, column=10) # fastback_music
+    button2.grid(row=2, column=12) # play_music
+    button3.grid(row=2, column=14) # fastforward_music
+    button4.grid(row=2, column=16) # pause_music
+    button5.grid(row=2, column=18) # stop_music
+    button6.grid(row=2, column=150, padx=10) # loop music
+    button7.grid(row=1, column=150, padx=10) # repeat music
+    button8.grid(row=3, column=150, padx=10) # random music
 
     # set up the endevent for loop_songs
     pygame.mixer.music.set_endevent(SONG_END)
 
-    # backgroup loop to check if a song has finished
+    # background loop to check if a song has finished
     check_is_song_finished()
 
     # activate player
