@@ -246,7 +246,7 @@ if __name__ == "__main__":
     # playlist
     # path to directory that contains music files
     file_path = os.path.dirname(__file__)
-    os.chdir(file_path + "\..\playlist")
+    os.chdir(file_path + "/playlist")
     songlist = os.listdir()
 
     # make sure there is at least 1 song in song list
@@ -275,19 +275,19 @@ if __name__ == "__main__":
         position -= 1
         
     # main image
-    main_image = tkinter.PhotoImage(file=file_path + "/../images/cp.png")
+    main_image = tkinter.PhotoImage(file=file_path + "/images/cp.png")
     logo = tkinter.Label(player, image=main_image)
 
     # images for buttons
-    image1 = tkinter.PhotoImage(file=file_path + "/../images/backbutton.png")
-    image2 = tkinter.PhotoImage(file=file_path + "/../images/playbutton.png")
-    image3 = tkinter.PhotoImage(file=file_path + "/../images/forwardbutton.png")
-    image4 = tkinter.PhotoImage(file=file_path + "/../images/pausebutton.png")
-    image5 = tkinter.PhotoImage(file=file_path + "/../images/stopbutton.png")
-    image6 = tkinter.PhotoImage(file=file_path + "/../images/volume.png")
-    image7 = tkinter.PhotoImage(file=file_path + "/../images/loop.png")
-    image8 = tkinter.PhotoImage(file=file_path + "/../images/repeat.png")
-    image9 = tkinter.PhotoImage(file=file_path + "/../images/random.png")
+    image1 = tkinter.PhotoImage(file=file_path + "/images/backbutton.png")
+    image2 = tkinter.PhotoImage(file=file_path + "/images/playbutton.png")
+    image3 = tkinter.PhotoImage(file=file_path + "/images/forwardbutton.png")
+    image4 = tkinter.PhotoImage(file=file_path + "/images/pausebutton.png")
+    image5 = tkinter.PhotoImage(file=file_path + "/images/stopbutton.png")
+    image6 = tkinter.PhotoImage(file=file_path + "/images/volume.png")
+    image7 = tkinter.PhotoImage(file=file_path + "/images/loop.png")
+    image8 = tkinter.PhotoImage(file=file_path + "/images/repeat.png")
+    image9 = tkinter.PhotoImage(file=file_path + "/images/random.png")
 
     # buttons
     button1 = tkinter.Button(player, width=55, height=55, image=image1, command=back_music)
