@@ -264,8 +264,8 @@ if __name__ == "__main__":
         # because insert is in that order
         position = len(songlist) - 1
 
-        # Filtering files *.mp3
-        if item.find(".mp3") != -1:
+        # Filtering files *.wav *.mp3 *.ogg
+        if item.find(".mp3") != -1 or item.find(".wav") != -1 or item.find(".ogg") != -1:
             playlist.insert(position, item)
         position -= 1
     

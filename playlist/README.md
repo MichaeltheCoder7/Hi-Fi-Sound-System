@@ -1,1 +1,1 @@
-Put your MP3 format songs here.
+Put your WAV/MP3/OGG format songs here.
