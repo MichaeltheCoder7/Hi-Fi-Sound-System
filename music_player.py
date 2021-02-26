@@ -249,10 +249,6 @@ if __name__ == "__main__":
     os.chdir(file_path + "/playlist")
     songlist = os.listdir()
 
-    # make sure there is at least 1 song in song list
-    if len(songlist) == 0:
-        raise Exception("No music files found!")
-
     # create playlist
     playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
     playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="blue", selectmode=tkinter.SINGLE)
@@ -271,9 +267,12 @@ if __name__ == "__main__":
         # Filtering files *.mp3
         if item.find(".mp3") != -1:
             playlist.insert(position, item)
-            pygame.mixer.music.queue(item)
         position -= 1
-        
+    
+    # make sure there is at least 1 song in playlist
+    if playlist.size() == 0:
+        raise Exception("No music files found!")
+
     # main image
     main_image = tkinter.PhotoImage(file=file_path + "/images/cp.png")
     logo = tkinter.Label(player, image=main_image)
