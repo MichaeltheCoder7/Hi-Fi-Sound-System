@@ -22,7 +22,7 @@ songlist = os.listdir()
 
 # create playlist
 playlist_label = tkinter.Label(player, text="Playlist", background="light blue")
-playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="light blue", selectmode=tkinter.SINGLE)
+playlist = tkinter.Listbox(player, highlightcolor="blue", width=45, height=15, selectbackground="blue", selectmode=tkinter.SINGLE)
 
 # initialize pygame and mixer
 pygame.init()
@@ -216,6 +216,8 @@ def switch_random():
 
 
 def check_is_song_finished():
+    global is_paused
+
     num = playlist.size()
 
     # infinite loop to check for event
@@ -239,7 +241,8 @@ def check_is_song_finished():
                 var.set(playlist.get(tkinter.ACTIVE))
 
                 pygame.mixer.music.play() # play the song
-                
+                is_paused = False # set pause to false
+
                 playlist.selection_clear(0, num - 1) # clear selections
                 playlist.selection_set(music_index) # select the next song
                 playlist.activate(music_index) # activate the selection
