@@ -1,6 +1,6 @@
 # Hi-Fi-Sound-System
 
-This is a music player designed for the Hi-Fi-Sound-System engineering senior project. It's also a stand-alone software that can be used on any computers.
+This is a music player designed for the Hi-Fi R2R Architecture Linear Sound System engineering senior project. It's also a stand-alone software that can be used on any computers.
 
 Instructions:  
 1. Download and extract the zip file.
