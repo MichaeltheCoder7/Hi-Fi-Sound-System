@@ -4,6 +4,6 @@ This is a music player designed for the Hi-Fi R2R Architecture Linear Sound Syst
 
 Instructions:  
 1. Download and extract the zip file.
-2. Make sure you have Python3 and pygame installed.
+2. Make sure you have Python3 and Pygame installed.
 3. Put your WAV/MP3/OGG music files in the playlist folder.
 4. Click music_player.py and play music!
