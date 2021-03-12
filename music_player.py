@@ -241,7 +241,7 @@ if __name__ == "__main__":
     # specify window settings
     player.title("Music Player")
     player.geometry("860x500+300+300")
-    player.resizable(0, 0) # prohibit changing size
+    #player.resizable(0, 0) # prohibit changing size
 
     # playlist
     # path to directory that contains music files
